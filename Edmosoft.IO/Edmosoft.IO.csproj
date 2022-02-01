@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net5.0</TargetFrameworks>
+    <Authors>Edmosoft</Authors>
+    <Product>Edmosoft.IO</Product>
+  </PropertyGroup>
+
+</Project>
