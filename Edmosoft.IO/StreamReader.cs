@@ -58,7 +58,15 @@ namespace Edmosoft.IO
       {
         case 3:
           {
-            BaseStream.Read(buffer, 1, 3);
+            if (mode == ByteOrderMode.BE)
+            {
+
+              BaseStream.Read(buffer, 1, 3);
+            }
+            else
+            {
+              BaseStream.Read(buffer, 0, 3);
+            }
             break;
           }
         case 4:
