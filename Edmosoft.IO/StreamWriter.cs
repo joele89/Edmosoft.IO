@@ -2,7 +2,7 @@ using System;
 
 namespace Edmosoft.IO
 {
-  class StreamWriter
+  public class StreamWriter
   {
     public ByteOrderMode mode = ByteOrderMode.LE;
     public System.IO.Stream BaseStream;
