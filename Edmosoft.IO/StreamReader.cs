@@ -133,9 +133,12 @@ namespace Edmosoft.IO
         {
           return (BaseStream.Length > BaseStream.Position);
         }
-        else
+        else if (BaseStream.GetType() == typeof(System.Net.Sockets.NetworkStream))
         {
           return ((System.Net.Sockets.NetworkStream)BaseStream).DataAvailable;
+        } else
+        {
+          return true; //assume data is available, let another part of the library fail...
         }
       }
     }
