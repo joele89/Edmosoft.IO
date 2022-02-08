@@ -45,8 +45,8 @@ namespace Edmosoft.IO
           }
         default:
           {
-            throw new ArgumentException();
-            break;
+            throw new ArgumentException("length must be 3 or 4");
+            //break;
           }
       }
     }
@@ -74,8 +74,8 @@ namespace Edmosoft.IO
           }
         default:
           {
-            throw new ArgumentException();
-            break;
+            throw new ArgumentException("length must be 3 or 4");
+            //break;
           }
       }
     }

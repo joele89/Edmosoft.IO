@@ -44,8 +44,8 @@ namespace Edmosoft.IO
           }
         default:
           {
-            throw new ArgumentException();
-            break;
+            throw new ArgumentException("length must be 3 or 4");
+            //break;
           }
       }
       if (mode == ByteOrderMode.BE) Array.Reverse(buffer);
@@ -76,8 +76,8 @@ namespace Edmosoft.IO
           }
         default:
           {
-            throw new ArgumentException();
-            break;
+            throw new ArgumentException("length must be 3 or 4");
+            //break;
           }
       }
       if (mode == ByteOrderMode.BE) Array.Reverse(buffer);
@@ -97,8 +97,15 @@ namespace Edmosoft.IO
         List<byte> r = new List<byte>();
         do
         {
-          r.Add((byte)BaseStream.ReadByte());
-        } while (DataAvailable);
+          int b = BaseStream.ReadByte();
+          if (b == -1)
+          {
+            break;
+          } else
+          {
+            r.Add((byte)b);
+          }
+        } while (true);
         return r.ToArray();
       }
     }
@@ -112,8 +119,14 @@ namespace Edmosoft.IO
     {
       if (BaseStream.CanSeek)
       {
-        System.IO.StreamReader sr = new System.IO.StreamReader(BaseStream);
-        return (byte)sr.Peek();
+        long startPos = BaseStream.Position;
+        int peekByte = BaseStream.ReadByte();
+        BaseStream.Position = startPos;
+        if (peekByte == -1)
+        {
+          throw new System.IO.EndOfStreamException();
+        }
+        return (byte)peekByte;
       }
       else
       {
@@ -135,10 +148,16 @@ namespace Edmosoft.IO
         }
         else if (BaseStream.GetType() == typeof(System.Net.Sockets.NetworkStream))
         {
-          return ((System.Net.Sockets.NetworkStream)BaseStream).DataAvailable;
+          try
+          {
+            return ((System.Net.Sockets.NetworkStream)BaseStream).DataAvailable;
+          } catch (InvalidCastException)
+          {
+            throw new NotImplementedException();
+          }
         } else
         {
-          return true; //assume data is available, let another part of the library fail...
+          throw new NotImplementedException();
         }
       }
     }
