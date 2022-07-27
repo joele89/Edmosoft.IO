@@ -174,7 +174,7 @@ namespace Edmosoft.IO
       }
       else if (encoding == System.Text.Encoding.Unicode)
       {
-        if ((bom & 0xE0) == 0xE0) len = 4;
+        if ((bom & 0xD8) == 0xD8) len = 4;
       }
       else if (encoding == System.Text.Encoding.UTF32)
       {
