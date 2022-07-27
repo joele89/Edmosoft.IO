@@ -190,12 +190,12 @@ namespace Edmosoft.IO
                     case 10:
                     case 13:
                     case 0:
-                      ReadByte(); //read and discard next 2 bytes
-                      ReadByte();
+                      ReadByte(); //read and discard
                       ret.RemoveAt(ret.Count - 1); //discard last byte
                       break;
                   }
                 }
+                ReadByte(); //read and discard
                 goto default;
               default:
                 EndOfLine = true;
