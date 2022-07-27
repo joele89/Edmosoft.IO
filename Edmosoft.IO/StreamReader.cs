@@ -186,6 +186,7 @@ namespace Edmosoft.IO
       }
       else if (encoding == System.Text.Encoding.Unicode)
       {
+        len = 2;
         if (mode == ByteOrderMode.LE)
         {
           long startPos = BaseStream.Position;
