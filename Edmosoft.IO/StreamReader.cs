@@ -6,6 +6,7 @@ namespace Edmosoft.IO
   public class StreamReader
   {
     public ByteOrderMode mode = ByteOrderMode.LE;
+    public System.Text.Encoding encoding = System.Text.Encoding.ASCII;
 
     public System.IO.Stream BaseStream;
     public StreamReader(byte[] b)
@@ -101,7 +102,8 @@ namespace Edmosoft.IO
           if (b == -1)
           {
             break;
-          } else
+          }
+          else
           {
             r.Add((byte)b);
           }
@@ -133,6 +135,80 @@ namespace Edmosoft.IO
         throw new NotImplementedException();
       }
     }
+    public byte DoublePeek()
+    {
+      if (BaseStream.CanSeek)
+      {
+        long startPos = BaseStream.Position;
+        int peekByte = BaseStream.ReadByte();
+        if (peekByte == -1)
+        {
+          BaseStream.Position = startPos;
+          throw new System.IO.EndOfStreamException();
+        }
+        peekByte = BaseStream.ReadByte();
+        BaseStream.Position = startPos;
+        if (peekByte == -1)
+        {
+          throw new System.IO.EndOfStreamException();
+        }
+        return (byte)peekByte;
+      }
+      else
+      {
+        throw new NotImplementedException();
+      }
+    }
+    public string ReadLine(bool nullTerminated = false)
+    {
+      bool EndOfLine = false;
+      List<byte> ret = new List<byte>();
+      do
+      {
+        byte nextByte = ReadByte();
+        switch (nextByte)
+        {
+          case 0:
+            if (nullTerminated)
+              goto case 10;
+            else
+            {
+              ret.Add(nextByte);
+              break;
+            }
+          case 13:
+          case 10:
+            switch (Peek())
+            {
+              case 10:
+              case 13:
+              case 0:
+                if (ret[ret.Count - 1] == 0 && Peek() == 0)
+                {
+                  switch (DoublePeek())
+                  {
+                    case 10:
+                    case 13:
+                    case 0:
+                      ReadByte(); //read and discard next 2 bytes
+                      ReadByte();
+                      ret.RemoveAt(ret.Count - 1); //discard last byte
+                      break;
+                  }
+                }
+                goto default;
+              default:
+                EndOfLine = true;
+                break;
+            }
+            break;
+          default:
+            ret.Add(nextByte);
+            break;
+        }
+      } while (DataAvailable & !EndOfLine);
+      return encoding.GetString(ret.ToArray());
+    }
     public string ReadToEnd()
     {
       System.IO.StreamReader sr = new System.IO.StreamReader(BaseStream);
@@ -151,11 +227,13 @@ namespace Edmosoft.IO
           try
           {
             return ((System.Net.Sockets.NetworkStream)BaseStream).DataAvailable;
-          } catch (InvalidCastException)
+          }
+          catch (InvalidCastException)
           {
             throw new NotImplementedException();
           }
-        } else
+        }
+        else
         {
           throw new NotImplementedException();
         }

@@ -5,6 +5,8 @@ namespace Edmosoft.IO
   public class StreamWriter
   {
     public ByteOrderMode mode = ByteOrderMode.LE;
+    public LineTerminator terminator = LineTerminator.CRLF;
+    public System.Text.Encoding encoding = System.Text.Encoding.ASCII;
     public System.IO.Stream BaseStream;
     public StreamWriter(ref System.IO.Stream stream)
     {
@@ -78,6 +80,14 @@ namespace Edmosoft.IO
             //break;
           }
       }
+    }
+    public void WriteLine(string data)
+    {
+      if ((terminator & LineTerminator.CR) == LineTerminator.CR)
+        data += "\r";
+      if ((terminator & LineTerminator.LF) == LineTerminator.LF)
+        data += "\n";
+      WriteBlock(encoding.GetBytes(data));
     }
     public void WriteBlock(byte[] buffer)
     {
