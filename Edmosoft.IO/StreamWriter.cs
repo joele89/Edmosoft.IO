@@ -29,27 +29,21 @@ namespace Edmosoft.IO
       switch (length)
       {
         case 3:
+          if (mode == ByteOrderMode.BE)
           {
-            if (mode == ByteOrderMode.BE)
-            {
-              BaseStream.Write(buffer, 1, 3);
-            }
-            else
-            {
-              BaseStream.Write(buffer, 0, 3);
-            }
-            break;
+            BaseStream.Write(buffer, 1, 3);
           }
+          else
+          {
+            BaseStream.Write(buffer, 0, 3);
+          }
+          break;
         case 4:
-          {
-            BaseStream.Write(buffer, 0, 4);
-            break;
-          }
+          BaseStream.Write(buffer, 0, 4);
+          break;
         default:
-          {
-            throw new ArgumentException("length must be 3 or 4");
-            //break;
-          }
+          throw new ArgumentException("length must be 3 or 4");
+          //break;
       }
     }
     public void WriteInt32(Int32 value, int length = 4)
@@ -59,26 +53,17 @@ namespace Edmosoft.IO
       switch (length)
       {
         case 3:
-          {
-            if (mode == ByteOrderMode.BE)
-            {
-              BaseStream.Write(buffer, 1, 3);
-            } else
-            {
-              BaseStream.Write(buffer, 0, 3);
-            }
-            break;
-          }
+          if (mode == ByteOrderMode.BE)
+            BaseStream.Write(buffer, 1, 3);
+          else
+            BaseStream.Write(buffer, 0, 3);
+          break;
         case 4:
-          {
-            BaseStream.Write(buffer, 0, 4);
-            break;
-          }
+          BaseStream.Write(buffer, 0, 4);
+          break;
         default:
-          {
-            throw new ArgumentException("length must be 3 or 4");
-            //break;
-          }
+          throw new ArgumentException("length must be 3 or 4");
+          //break;
       }
     }
     public void WriteLine(string data)

@@ -34,20 +34,14 @@ namespace Edmosoft.IO
       switch (length)
       {
         case 3:
-          {
-            BaseStream.Read(buffer, 1, 3);
-            break;
-          }
+          BaseStream.Read(buffer, 1, 3);
+          break;
         case 4:
-          {
-            BaseStream.Read(buffer, 0, 4);
-            break;
-          }
+          BaseStream.Read(buffer, 0, 4);
+          break;
         default:
-          {
-            throw new ArgumentException("length must be 3 or 4");
-            //break;
-          }
+          throw new ArgumentException("length must be 3 or 4");
+          //break;
       }
       if (mode == ByteOrderMode.BE) Array.Reverse(buffer);
       return System.BitConverter.ToUInt32(buffer, 0);
@@ -58,28 +52,17 @@ namespace Edmosoft.IO
       switch (length)
       {
         case 3:
-          {
-            if (mode == ByteOrderMode.BE)
-            {
-
-              BaseStream.Read(buffer, 1, 3);
-            }
-            else
-            {
-              BaseStream.Read(buffer, 0, 3);
-            }
-            break;
-          }
+          if (mode == ByteOrderMode.BE)
+            BaseStream.Read(buffer, 1, 3);
+          else
+            BaseStream.Read(buffer, 0, 3);
+          break;
         case 4:
-          {
-            BaseStream.Read(buffer, 0, 4);
-            break;
-          }
+          BaseStream.Read(buffer, 0, 4);
+          break;
         default:
-          {
-            throw new ArgumentException("length must be 3 or 4");
-            //break;
-          }
+          throw new ArgumentException("length must be 3 or 4");
+          //break;
       }
       if (mode == ByteOrderMode.BE) Array.Reverse(buffer);
       return System.BitConverter.ToInt32(buffer, 0);
@@ -100,13 +83,9 @@ namespace Edmosoft.IO
         {
           int b = BaseStream.ReadByte();
           if (b == -1)
-          {
             break;
-          }
           else
-          {
             r.Add((byte)b);
-          }
         } while (true);
         return r.ToArray();
       }
@@ -125,9 +104,7 @@ namespace Edmosoft.IO
         int peekByte = BaseStream.ReadByte();
         BaseStream.Position = startPos;
         if (peekByte == -1)
-        {
           throw new System.IO.EndOfStreamException();
-        }
         return (byte)peekByte;
       }
       else
@@ -146,21 +123,17 @@ namespace Edmosoft.IO
         {
           case "\x00":
             if (nullTerminated)
-              goto case "\x0a";
+              EndOfLine = true;
             else
-            {
-              ret += nextChar;
-              break;
-            }
+              goto default;
+            break;
           case "\x0a":
+            if (PeekChar() == "\x0d") ReadChar();
+            EndOfLine = true;
+            break;
           case "\x0d":
-            switch (PeekChar())
-            {
-              case "\x0a":
-              case "\x0d":
-                ReadChar();
-                break;
-            }
+            if (PeekChar() == "\x0a") ReadChar();
+            EndOfLine = true;
             break;
           default:
             ret += nextChar;
@@ -194,14 +167,14 @@ namespace Edmosoft.IO
       }
       else if (encoding == System.Text.Encoding.UTF8)
       {
-        if ((bom & 0x80) == 0x0) { len = 1; }
-        if ((bom & 0xC0) == 0xC0) { len = 2; }
-        if ((bom & 0xE0) == 0xE0) { len = 3; }
-        if ((bom & 0xF0) == 0xF0) { len = 4; }
+        if ((bom & 0x80) == 0x0) len = 1;
+        if ((bom & 0xC0) == 0xC0) len = 2;
+        if ((bom & 0xE0) == 0xE0) len = 3;
+        if ((bom & 0xF0) == 0xF0) len = 4;
       }
       else if (encoding == System.Text.Encoding.Unicode)
       {
-        if ((bom & 0xE0) == 0xE0) { len = 4; }
+        if ((bom & 0xE0) == 0xE0) len = 4;
       }
       else if (encoding == System.Text.Encoding.UTF32)
       {
