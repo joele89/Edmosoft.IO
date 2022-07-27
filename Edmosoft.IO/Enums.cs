@@ -11,6 +11,7 @@ namespace Edmosoft.IO
   [Flags]
   public enum LineTerminator
   {
+    None = 0,
     CR = 1,
     LF = 2,
     CRLF = 3

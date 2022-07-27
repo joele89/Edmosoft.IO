@@ -135,79 +135,83 @@ namespace Edmosoft.IO
         throw new NotImplementedException();
       }
     }
-    public byte DoublePeek()
+    public string ReadLine(bool nullTerminated = false)
+    {
+      bool EndOfLine = false;
+      string ret = "";
+      do
+      {
+        string nextChar = ReadChar();
+        switch (nextChar)
+        {
+          case "\x00":
+            if (nullTerminated)
+              goto case "\x0a";
+            else
+            {
+              ret += nextChar;
+              break;
+            }
+          case "\x0a":
+          case "\x0d":
+            switch (PeekChar())
+            {
+              case "\x0a":
+              case "\x0d":
+                ReadChar();
+                break;
+            }
+            break;
+          default:
+            ret += nextChar;
+            break;
+        }
+      } while (DataAvailable & !EndOfLine);
+      return ret;
+    }
+    public string PeekChar()
     {
       if (BaseStream.CanSeek)
       {
         long startPos = BaseStream.Position;
-        int peekByte = BaseStream.ReadByte();
-        if (peekByte == -1)
-        {
-          BaseStream.Position = startPos;
-          throw new System.IO.EndOfStreamException();
-        }
-        peekByte = BaseStream.ReadByte();
+        string ret = ReadChar();
         BaseStream.Position = startPos;
-        if (peekByte == -1)
-        {
-          throw new System.IO.EndOfStreamException();
-        }
-        return (byte)peekByte;
+        return ret;
       }
       else
       {
         throw new NotImplementedException();
       }
     }
-    public string ReadLine(bool nullTerminated = false)
+
+    public string ReadChar()
     {
-      bool EndOfLine = false;
-      List<byte> ret = new List<byte>();
-      do
+      byte bom = Peek();
+      byte len = 1;
+      if (encoding == System.Text.Encoding.ASCII)
       {
-        byte nextByte = ReadByte();
-        switch (nextByte)
-        {
-          case 0:
-            if (nullTerminated)
-              goto case 10;
-            else
-            {
-              ret.Add(nextByte);
-              break;
-            }
-          case 13:
-          case 10:
-            switch (Peek())
-            {
-              case 10:
-              case 13:
-              case 0:
-                if (ret[ret.Count - 1] == 0 && Peek() == 0)
-                {
-                  switch (DoublePeek())
-                  {
-                    case 10:
-                    case 13:
-                    case 0:
-                      ReadByte(); //read and discard
-                      ret.RemoveAt(ret.Count - 1); //discard last byte
-                      break;
-                  }
-                }
-                ReadByte(); //read and discard
-                goto default;
-              default:
-                EndOfLine = true;
-                break;
-            }
-            break;
-          default:
-            ret.Add(nextByte);
-            break;
-        }
-      } while (DataAvailable & !EndOfLine);
-      return encoding.GetString(ret.ToArray());
+        return encoding.GetString(ReadBlock(1));
+      }
+      else if (encoding == System.Text.Encoding.UTF8)
+      {
+        if ((bom & 0x80) == 0x0) { len = 1; }
+        if ((bom & 0xC0) == 0xC0) { len = 2; }
+        if ((bom & 0xE0) == 0xE0) { len = 3; }
+        if ((bom & 0xF0) == 0xF0) { len = 4; }
+      }
+      else if (encoding == System.Text.Encoding.Unicode)
+      {
+        if ((bom & 0xE0) == 0xE0) { len = 4; }
+      }
+      else if (encoding == System.Text.Encoding.UTF32)
+      {
+        len = 4;
+      }
+      else
+      {
+        throw new NotImplementedException();
+      }
+      return encoding.GetString(ReadBlock(len));
     }
     public string ReadToEnd()
     {
