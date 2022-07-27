@@ -161,30 +161,51 @@ namespace Edmosoft.IO
     {
       byte bom = Peek();
       byte len = 1;
+      byte[] block;
       if (encoding == System.Text.Encoding.ASCII)
       {
         return encoding.GetString(ReadBlock(1));
       }
       else if (encoding == System.Text.Encoding.UTF8)
       {
-        if ((bom & 0x80) == 0x0) len = 1;
+        if ((bom & 0x80) == 0x0) return encoding.GetString(ReadBlock(1));
+        if (mode == ByteOrderMode.LE)
+        {
+          long startPos = BaseStream.Position;
+          for (int i = 2; i <= 4; i++)
+          {
+            bom = ReadByte();
+            if ((bom & 0xF0) != 0x80) break;
+          }
+          BaseStream.Position = startPos;
+        }
         if ((bom & 0xC0) == 0xC0) len = 2;
         if ((bom & 0xE0) == 0xE0) len = 3;
         if ((bom & 0xF0) == 0xF0) len = 4;
+        block = ReadBlock(len);
       }
       else if (encoding == System.Text.Encoding.Unicode)
       {
+        if (mode == ByteOrderMode.LE)
+        {
+          long startPos = BaseStream.Position;
+          ReadByte(); // discard Little
+          bom = ReadByte();
+          BaseStream.Position = startPos;
+        }
         if ((bom & 0xD8) == 0xD8) len = 4;
+        block = ReadBlock(len);
       }
       else if (encoding == System.Text.Encoding.UTF32)
       {
-        len = 4;
+        block = ReadBlock(len);
       }
       else
       {
         throw new NotImplementedException();
       }
-      return encoding.GetString(ReadBlock(len));
+      if (mode == ByteOrderMode.BE) Array.Reverse(block);
+      return encoding.GetString(block);
     }
     public string ReadToEnd()
     {

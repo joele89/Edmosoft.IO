@@ -30,13 +30,9 @@ namespace Edmosoft.IO
       {
         case 3:
           if (mode == ByteOrderMode.BE)
-          {
             BaseStream.Write(buffer, 1, 3);
-          }
           else
-          {
             BaseStream.Write(buffer, 0, 3);
-          }
           break;
         case 4:
           BaseStream.Write(buffer, 0, 4);
@@ -72,7 +68,18 @@ namespace Edmosoft.IO
         data += "\r";
       if ((terminator & LineTerminator.LF) == LineTerminator.LF)
         data += "\n";
-      WriteBlock(encoding.GetBytes(data));
+      foreach (char c in data)
+        WriteChar(c);
+    }
+    public void WriteChar(char data)
+    {
+      WriteChar(data.ToString());
+    }
+    public void WriteChar(string data)
+    {
+      byte[] block = encoding.GetBytes(data);
+      if (mode == ByteOrderMode.BE) Array.Reverse(block);
+      WriteBlock(block);
     }
     public void WriteBlock(byte[] buffer)
     {
