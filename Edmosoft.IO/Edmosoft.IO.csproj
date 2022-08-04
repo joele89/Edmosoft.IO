@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <Authors>Edmosoft</Authors>
     <Product>Edmosoft.IO</Product>
     <RepositoryUrl></RepositoryUrl>
@@ -10,9 +10,9 @@
     <NeutralLanguage></NeutralLanguage>
     <Description>Add handlers for reading various data types directly from a stream.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.5.7.0</AssemblyVersion>
-    <FileVersion>0.5.7.0</FileVersion>
-    <Version>0.5.7</Version>
+    <AssemblyVersion>0.5.8.0</AssemblyVersion>
+    <FileVersion>0.5.8.0</FileVersion>
+    <Version>0.5.8</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
