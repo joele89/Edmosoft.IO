@@ -116,31 +116,63 @@ namespace Edmosoft.IO
     {
       bool EndOfLine = false;
       string ret = "";
-      do
+      if (encoding == System.Text.Encoding.ASCII || encoding == System.Text.Encoding.Unicode || encoding == System.Text.Encoding.UTF8 || encoding == System.Text.Encoding.UTF32)
       {
-        string nextChar = ReadChar();
-        switch (nextChar)
+        do
         {
-          case "\x00":
-            if (nullTerminated)
+          string nextChar = ReadChar();
+          switch (nextChar)
+          {
+            case "\x00":
+              if (nullTerminated)
+                EndOfLine = true;
+              else
+                goto default;
+              break;
+            case "\x0a":
+              if (PeekChar() == "\x0d") ReadChar();
               EndOfLine = true;
-            else
-              goto default;
-            break;
-          case "\x0a":
-            if (PeekChar() == "\x0d") ReadChar();
-            EndOfLine = true;
-            break;
-          case "\x0d":
-            if (PeekChar() == "\x0a") ReadChar();
-            EndOfLine = true;
-            break;
-          default:
-            ret += nextChar;
-            break;
-        }
-      } while (DataAvailable & !EndOfLine);
-      return ret;
+              break;
+            case "\x0d":
+              if (PeekChar() == "\x0a") ReadChar();
+              EndOfLine = true;
+              break;
+            default:
+              ret += nextChar;
+              break;
+          }
+        } while (DataAvailable & !EndOfLine);
+        return ret;
+      }
+      else
+      {
+        int count = 0;
+        do
+        {
+          count++;
+          try
+          {
+            ret = encoding.GetString(ReadBlock(count));
+            if (ret.Contains("\x0d") | ret.Contains("\x0a") | (nullTerminated && ret.Contains("\x00")))
+            {
+              if (ret.EndsWith("\x0d") | ret.EndsWith("\x0a") | (nullTerminated && ret.Contains("\x00")))
+              { }
+              else
+              {
+                EndOfLine = true;
+              }
+            }
+          }
+          catch { }
+        } while (DataAvailable & !EndOfLine);
+        string[] line;
+        if (nullTerminated)
+          line = ret.Split(new char[] { '\x0a', '\x0d', '\x00' }, 2);
+        else
+          line = ret.Split(new char[] { '\x0a', '\x0d' }, 2);
+        BaseStream.Seek(0 - encoding.GetByteCount(line[1]), System.IO.SeekOrigin.Current);
+        return line[0];
+      }
     }
     public string PeekChar()
     {
@@ -162,6 +194,7 @@ namespace Edmosoft.IO
       byte bom = Peek();
       byte len = 1;
       byte[] block;
+      //can't use switch as encodings don't evaluate to constants
       if (encoding == System.Text.Encoding.ASCII)
       {
         return encoding.GetString(ReadBlock(1));

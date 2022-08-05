@@ -1,18 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <Authors>Edmosoft</Authors>
     <Product>Edmosoft.IO.vbaCompression</Product>
     <RepositoryUrl></RepositoryUrl>
-    <PackageTags>Stream,StreamReader</PackageTags>
-    <PackageProjectUrl>https://github.com/joele89/Edmosoft.IO</PackageProjectUrl>
+    <PackageTags>vbaProject.bin,vbaProject,Macro,Office</PackageTags>
+    <PackageProjectUrl>https://github.com/joele89/Edmosoft.IO/tree/master/Edmosoft.IO.vbsCompression</PackageProjectUrl>
     <NeutralLanguage></NeutralLanguage>
-    <Description>Add handlers for reading various data types directly from a stream.</Description>
+    <Description>Library for decompressing the MS-OVBA Run Length Encoding compression used for Microsoft Office VBA projects.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
-    <FileVersion>0.1.1.0</FileVersion>
-    <Version>0.1.1</Version>
+    <AssemblyVersion>0.1.2.0</AssemblyVersion>
+    <FileVersion>0.1.2.0</FileVersion>
+    <Version>0.1.2</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
