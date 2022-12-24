@@ -1,23 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1;net7.0</TargetFrameworks>
     <Authors>Edmosoft</Authors>
     <Product>Edmosoft.IO</Product>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/joele89/Edmosoft.IO</RepositoryUrl>
     <PackageTags>Stream,StreamReader</PackageTags>
     <PackageProjectUrl>https://github.com/joele89/Edmosoft.IO</PackageProjectUrl>
     <NeutralLanguage></NeutralLanguage>
     <Description>Add handlers for reading various data types directly from a stream.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.5.10.0</AssemblyVersion>
-    <FileVersion>0.5.10.0</FileVersion>
-    <Version>0.5.10</Version>
+    <Version>0.5.11</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
