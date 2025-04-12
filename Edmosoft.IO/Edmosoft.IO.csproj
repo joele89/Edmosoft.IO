@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1;net7.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1;net7.0;net8.0;net9.0</TargetFrameworks>
     <Authors>Edmosoft</Authors>
     <Product>Edmosoft.IO</Product>
     <RepositoryUrl>https://github.com/joele89/Edmosoft.IO</RepositoryUrl>
     <PackageTags>Stream,StreamReader</PackageTags>
     <PackageProjectUrl>https://github.com/joele89/Edmosoft.IO</PackageProjectUrl>
     <NeutralLanguage></NeutralLanguage>
-    <Description>Add handlers for reading various data types directly from a stream.</Description>
+    <Description>Add block peak function &amp; include .net 8.0 + 9.0 compatability</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.5.11</Version>
+    <Version>0.5.12</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>

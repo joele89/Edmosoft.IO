@@ -112,6 +112,23 @@ namespace Edmosoft.IO
         throw new NotImplementedException();
       }
     }
+
+    public string Peek(int length)
+    {
+      if (BaseStream.CanSeek)
+      {
+        long startPos = BaseStream.Position;
+        byte[] peekBytes = ReadBlock(length);
+        BaseStream.Position = startPos;
+        if (peekBytes.Length == 0)
+          throw new System.IO.EndOfStreamException();
+        return encoding.GetString(peekBytes);
+      }
+      else
+      {
+        throw new NotImplementedException();
+      }
+    }
     public string ReadLine(bool nullTerminated = false)
     {
       bool EndOfLine = false;

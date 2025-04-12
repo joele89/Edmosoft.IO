@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1;net7.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.0;netcoreapp3.1;net7.0;net8.0;net9.0</TargetFrameworks>
     <Authors>Edmosoft</Authors>
     <Product>Edmosoft.IO.vbaCompression</Product>
     <RepositoryUrl>https://github.com/joele89/Edmosoft.IO/tree/master/Edmosoft.IO.vbsCompression</RepositoryUrl>
@@ -10,15 +10,15 @@
     <NeutralLanguage></NeutralLanguage>
     <Description>Library for decompressing the MS-OVBA Run Length Encoding compression used for Microsoft Office VBA projects.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.3</Version>
+    <Version>0.1.4</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageReleaseNotes>add .net 7.0 support</PackageReleaseNotes>
+    <PackageReleaseNotes>add .net 8.0 &amp; .net 9.0 support</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Edmosoft.IO" Version="0.5.11" />
+    <PackageReference Include="Edmosoft.IO" Version="0.5.12" />
   </ItemGroup>
 
   <ItemGroup>
